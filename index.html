@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Timer</title>
+  <style>
+     body {
+      background: #f7e8b9; /* Light yellow background */
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+
+    #timer-container {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      background-color: #ffcf5c; /* Yellow background for the timer */
+      padding: 15px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    #not-born-message {
+      font-size: 1.5em;
+      color: #d9534f; /* Bootstrap's danger color */
+      margin-bottom: 20px;
+    }
+
+    #access-content-btn {
+      font-size: 1.8em;
+      background-color: #5cb85c; /* Bootstrap's success color */
+      color: #fff;
+      padding: 15px 25px;
+      border: none;
+      cursor: pointer;
+      display: none;
+      border-radius: 10px;
+    }
+  </style>
+  <script>
+    var password = prompt("Please enter the password to access this page:");
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if (password === "Special") {
+        var currentDate = new Date();
+        var birthdayDate = new Date("2024-01-20T00:00:00");
+        var timeDifference = birthdayDate - currentDate;
+
+        if (timeDifference > 0) {
+          initializeTimer(timeDifference);
+        } else {
+          showAccessButton();
+        }
+      } else {
+        window.location.href = "err.html"; // Redirect to err.html if the password is incorrect
+      }
+    });
+
+    function initializeTimer(timeDifference) {
+      var timerContainer = document.createElement("div");
+      timerContainer.id = "timer-container";
+      document.body.appendChild(timerContainer);
+
+      var notBornMessage = document.createElement("div");
+      notBornMessage.id = "not-born-message";
+      notBornMessage.innerText = "You are not born yet! 😜";
+      document.body.appendChild(notBornMessage);
+
+      var countdown = Math.floor(timeDifference / 1000);
+      var timerInterval = setInterval(function() {
+        if (countdown >= 0) {
+          displayTimer(countdown);
+          countdown--;
+        } else {
+          clearInterval(timerInterval);
+          showAccessButton();
+        }
+      }, 1000);
+    }
+
+    function displayTimer(seconds) {
+      var timerContainer = document.getElementById("timer-container");
+      if (timerContainer) {
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var remainingSeconds = seconds % 60;
+        timerContainer.innerHTML = `${padZero(hours)}:${padZero(minutes)}:${padZero(remainingSeconds)}`;
+      }
+    }
+
+    function showAccessButton() {
+      var accessButton = document.getElementById("access-content-btn");
+      if (accessButton) {
+        accessButton.style.display = "block";
+      }
+    }
+
+    function redirectToMain() {
+      window.location.href = "main.html"; // Redirect to main.html after accessing content
+    }
+
+    function padZero(num) {
+      return num < 10 ? `0${num}` : num;
+    }
+  </script>
+</head>
+<body>
+  
+  <button id="access-content-btn" onclick="redirectToMain()">Happy Birthday! 🎉 Plz touch me !!!</button>
+</body>
+</body>
+</html>
